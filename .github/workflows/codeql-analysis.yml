@@ -12,7 +12,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -36,8 +36,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
@@ -49,6 +49,18 @@ jobs:
     #- run: |
     #   make bootstrap
     #   make release
+    
+    - name: Setup MSBuild Path
+      uses: warrenbuckley/Setup-MSBuild@v1
+       
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore demo-dependabot/demo-dependabot.sln
+ 
+    - name: Build and Publish Web App
+      run: msbuild demo-dependabot/demo-dependabot.sln /p:Configuration=Release /p:DeployOnBuild=true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
