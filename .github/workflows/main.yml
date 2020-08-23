@@ -20,10 +20,10 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.2
      
     - name: Restore NuGet Packages
-      run: nuget restore demo-dependabot.sln
+      run: nuget restore demo-dependabot/demo-dependabot.sln
  
     - name: Build and Publish Web App
-      run: msbuild demo-dependabot.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      run: msbuild demo-dependabot/demo-dependabot.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
  
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
